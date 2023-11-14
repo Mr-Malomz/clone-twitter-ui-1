@@ -1,8 +1,18 @@
+'use client';
 import { Nav } from '@/components/Nav';
 import { Tweet } from '@/components/Tweet';
 import { TweetForm } from '@/components/TweetForm';
+import { useKeel } from '@/utils/KeelContext';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+	const keel = useKeel();
+	const router = useRouter();
+
+	if (!keel.ctx.isAuthenticated && !keel.ctx.token) {
+		router.push('/');
+	}
+
 	return (
 		<main className='min-h-screen w-full bg-[#fafafa]'>
 			<Nav />
