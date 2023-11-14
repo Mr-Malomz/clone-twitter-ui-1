@@ -1,6 +1,6 @@
 model User {
     fields {
-        identity Identity
+        identity Identity?
         name Text
     }
 
