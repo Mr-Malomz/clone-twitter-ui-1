@@ -1,0 +1,13 @@
+model User {
+    fields {
+        identity Identity
+        name Text
+    }
+
+    actions {
+        create createUser() with (name) {
+            @set(user.identity = ctx.identity)
+            @permission(expression: ctx.isAuthenticated)
+        }
+    }
+}
