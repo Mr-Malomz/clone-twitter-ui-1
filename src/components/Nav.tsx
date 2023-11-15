@@ -6,7 +6,7 @@ export const Nav = () => {
 	const keel = useKeel();
 	const router = useRouter();
 
-	const handleLogOut = () => {
+	const handleSignOut = () => {
 		keel.client.clearToken();
 		router.push('/');
 	};
@@ -17,7 +17,7 @@ export const Nav = () => {
 				Keel Twitter Clone
 			</h3>
 			<button
-				onClick={handleLogOut}
+				onClick={handleSignOut}
 				className='border py-1 px-4 rounded-lg hover:bg-zinc-200'
 			>
 				Sign out

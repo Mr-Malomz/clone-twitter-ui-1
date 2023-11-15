@@ -1,8 +1,8 @@
 'use client';
 import { FormEvent, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useKeel } from '@/utils/KeelContext';
-import Link from 'next/link';
 
 export const AuthSignUpForm = () => {
 	const [name, setName] = useState<string>('');
