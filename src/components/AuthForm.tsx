@@ -27,7 +27,7 @@ export const AuthForm = () => {
 					email,
 					password,
 				},
-				createIfNotExists: true,
+				createIfNotExists: false,
 			});
 
 			if (resp && resp.data?.token) {
