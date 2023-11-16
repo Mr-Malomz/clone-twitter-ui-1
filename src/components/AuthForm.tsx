@@ -1,57 +1,25 @@
 'use client';
-import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useKeel } from '@/utils/KeelContext';
+import { handleSignIn } from '@/app/actions/signin';
+import { useFormState, useFormStatus } from 'react-dom';
 
 export const AuthForm = () => {
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const router = useRouter();
-	const keel = useKeel();
-
-	useEffect(() => {
-		if (keel.ctx.isAuthenticated && keel.ctx.token) {
-			router.push('/auth/home');
-		}
-	}, []);
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setIsLoading(true);
-
-		try {
-			const resp = await keel.api.mutations.authenticate({
-				emailPassword: {
-					email,
-					password,
-				},
-				createIfNotExists: false,
-			});
-
-			if (resp && resp.data?.token) {
-				keel.client.setToken(resp.data.token);
-				setIsLoading(false);
-				router.push('/auth/home');
-			} else {
-				setIsLoading(false);
-				alert('Error logging in user');
-			}
-		} catch (error) {
-			setIsLoading(false);
-			alert('Error logging in user');
-		}
-	};
+	const [formState, action] = useFormState(handleSignIn, { type: 'initial' });
+	const { pending } = useFormStatus();
 
 	return (
 		<form
-			onSubmit={handleSubmit}
+			action={action}
 			className='w-full lg:w-1/2 border px-4 py-8 border-zinc-300 rounded-lg bg-white'
 		>
 			<h3 className='text-base lg:text-lg font-medium mb-6 text-center'>
 				Keel Twitter Clone
 			</h3>
+			{formState.type === 'error' && (
+				<p className='mb-6 text-center text-red-600'>
+					{formState.message}
+				</p>
+			)}
 			<fieldset className='mb-4'>
 				<label htmlFor='email' className='block text-sm mb-1'>
 					Email
@@ -60,9 +28,8 @@ export const AuthForm = () => {
 					type='email'
 					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
 					placeholder='input email'
+					name='email'
 					required
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
 				/>
 			</fieldset>
 			<fieldset className='mb-4'>
@@ -74,15 +41,14 @@ export const AuthForm = () => {
 					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
 					placeholder='input password'
 					required
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					name='password'
 				/>
 			</fieldset>
 			<button
-				disabled={isLoading}
+				disabled={pending}
 				className='py-1 px-4 w-full h-10 rounded-lg text-white bg-zinc-800 hover:bg-zinc-900'
 			>
-				{isLoading ? 'Please wait!' : 'Sign in'}
+				Sign in
 			</button>
 			<p className='text-center text-sm text-gray-800 mt-4'>
 				Don't have an account?{' '}
