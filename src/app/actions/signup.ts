@@ -27,19 +27,22 @@ export const handleSignUp = async (
 			return { type: 'error', message: 'No response from server' };
 		}
 
-		keelClient.client.setToken(response.data.token);
+		if (response.data.identityCreated) {
+			keelClient.client.setToken(response.data.token);
+			await keelClient.api.mutations.createUser({
+				name,
+			});
 
-		await keelClient.api.mutations.createUser({
-			name,
-		});
+			cookies().set('keelToken', response.data.token, {
+				httpOnly: true,
+				secure: true,
+				sameSite: 'strict',
+			});
 
-		cookies().set('keelToken', response.data.token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: 'strict',
-		});
-
-		redirect('/auth/home');
+			redirect('/auth/home');
+		} else {
+			return { type: 'error', message: 'Error creating in user' };
+		}
 	} catch (e) {
 		return { type: 'error', message: 'Error creating in user' };
 	}

@@ -1,6 +1,6 @@
 'use client';
-import { handleSignIn } from '@/app/actions/signin';
 import Link from 'next/link';
+import { handleSignIn } from '@/app/actions/signin';
 import { useFormState, useFormStatus } from 'react-dom';
 
 export const AuthForm = () => {

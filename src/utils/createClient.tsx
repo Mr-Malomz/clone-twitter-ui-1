@@ -1,8 +1,5 @@
 import { cookies } from 'next/headers';
 import { APIClient } from '../../keelClient';
-// import dotenv from 'dotenv';
-
-// dotenv.config();
 
 type Options = {
 	token?: string;

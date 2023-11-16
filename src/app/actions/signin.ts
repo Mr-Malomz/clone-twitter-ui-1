@@ -10,7 +10,6 @@ export const handleSignIn = async (
 	formData: FormData
 ): Promise<FormResponseType> => {
 	const keelClient = createClient();
-	// keelClient.client.clearToken();
 	const email = formData.get('email')?.toString() ?? '';
 	const password = formData.get('password')?.toString() ?? '';
 
@@ -21,8 +20,6 @@ export const handleSignIn = async (
 		},
 		createIfNotExists: false,
 	});
-
-	console.log(response);
 
 	const token = response.data?.token;
 
