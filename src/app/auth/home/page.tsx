@@ -1,16 +1,14 @@
-'use client';
 import { Nav } from '@/components/Nav';
 import { Tweet } from '@/components/Tweet';
 import { TweetForm } from '@/components/TweetForm';
-import { useKeel } from '@/utils/KeelContext';
-import { useRouter } from 'next/navigation';
+import { createClient } from '@/utils/createClient';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-	const keel = useKeel();
-	const router = useRouter();
+export default async function Home() {
+	const keelClient = createClient();
 
-	if (!keel.ctx.isAuthenticated && !keel.ctx.token) {
-		router.push('/');
+	if (!keelClient.ctx.isAuthenticated) {
+		redirect('/');
 	}
 
 	return (

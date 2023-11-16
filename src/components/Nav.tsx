@@ -1,14 +1,18 @@
 'use client';
-import { useKeel } from '@/utils/KeelContext';
+
 import { useRouter } from 'next/navigation';
 
 export const Nav = () => {
-	const keel = useKeel();
 	const router = useRouter();
 
 	const handleSignOut = () => {
-		keel.client.clearToken();
-		router.push('/');
+		fetch('/api/logout')
+			.then((res) => {
+				router.push('/');
+			})
+			.catch((_) => {
+				alert('Error signing out!');
+			});
 	};
 
 	return (

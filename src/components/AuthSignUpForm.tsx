@@ -1,64 +1,25 @@
 'use client';
-import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useKeel } from '@/utils/KeelContext';
+import { useFormState, useFormStatus } from 'react-dom';
+import { handleSignUp } from '@/app/actions/signup';
 
 export const AuthSignUpForm = () => {
-	const [name, setName] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const router = useRouter();
-	const keel = useKeel();
-
-	useEffect(() => {
-		if (keel.ctx.isAuthenticated && keel.ctx.token) {
-			router.push('/auth/home');
-		}
-	}, []);
-
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setIsLoading(true);
-
-		try {
-			const resp = await keel.api.mutations.authenticate({
-				emailPassword: {
-					email,
-					password,
-				},
-				createIfNotExists: true,
-			});
-
-			if (resp && resp.data?.identityCreated) {
-				const createUserPromise = keel.api.mutations.createUser({
-					name,
-				});
-
-				await Promise.all([createUserPromise]);
-
-				keel.client.setToken(resp.data.token);
-				setIsLoading(false);
-				router.push('/auth/home');
-			} else {
-				setIsLoading(false);
-				alert('Error creating in user');
-			}
-		} catch (error) {
-			setIsLoading(false);
-			alert('Error creating in user');
-		}
-	};
+	const [formState, action] = useFormState(handleSignUp, { type: 'initial' });
+	const { pending } = useFormStatus();
 
 	return (
 		<form
-			onSubmit={handleSubmit}
+			action={action}
 			className='w-full lg:w-1/2 border px-4 py-8 border-zinc-300 rounded-lg bg-white'
 		>
 			<h3 className='text-base lg:text-lg font-medium mb-6 text-center'>
 				Keel Twitter Clone
 			</h3>
+			{formState.type === 'error' && (
+				<p className='mb-6 text-center text-red-600'>
+					{formState.message}
+				</p>
+			)}
 			<fieldset className='mb-4'>
 				<label htmlFor='name' className='block text-sm mb-1'>
 					Name
@@ -68,8 +29,7 @@ export const AuthSignUpForm = () => {
 					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
 					placeholder='input name'
 					required
-					value={name}
-					onChange={(e) => setName(e.target.value)}
+					name='name'
 				/>
 			</fieldset>
 			<fieldset className='mb-4'>
@@ -81,8 +41,7 @@ export const AuthSignUpForm = () => {
 					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
 					placeholder='input email'
 					required
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					name='email'
 				/>
 			</fieldset>
 			<fieldset className='mb-4'>
@@ -94,15 +53,14 @@ export const AuthSignUpForm = () => {
 					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
 					placeholder='input password'
 					required
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					name='password'
 				/>
 			</fieldset>
 			<button
-				disabled={isLoading}
+				disabled={pending}
 				className='py-1 px-4 w-full h-10 rounded-lg text-white bg-zinc-800 hover:bg-zinc-900'
 			>
-				{isLoading ? 'Please wait!' : 'Sign up'}
+				Sign up
 			</button>
 			<p className='text-center text-sm text-gray-800 mt-4'>
 				Already have an account?{' '}
