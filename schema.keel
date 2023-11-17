@@ -13,6 +13,7 @@ model User {
         }
         get getUser() {
             @where(user.identity == ctx.identity)
+            @permission(expression: ctx.isAuthenticated)
         }
     }
 }
