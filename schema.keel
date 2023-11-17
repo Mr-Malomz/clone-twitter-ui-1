@@ -27,12 +27,20 @@ model Tweet {
     actions {
         create newTweet() with (content, user.username) {
             @set(tweet.user.identity = ctx.identity)
-            @permission(expression: ctx.isAuthenticated)
         }
-        update updateTweet(id) with (content)
-        delete deleteTweet(id)
+        update updateTweet(id) with (content) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
+        delete deleteTweet(id) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
         list listTweets() {
             @orderBy(createdAt: desc)
         }
     }
+
+    @permission(
+        expression: ctx.isAuthenticated,
+        actions: [create, list]
+    )
 }
