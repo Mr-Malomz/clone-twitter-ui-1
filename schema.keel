@@ -1,8 +1,8 @@
 model User {
     fields {
         identity Identity @unique
+        name Text
         username Text @unique
-        name Text?
         tweets Tweet[]
     }
 
