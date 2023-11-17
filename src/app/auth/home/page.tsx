@@ -1,5 +1,5 @@
 import { Nav } from '@/components/Nav';
-import { Tweet } from '@/components/Tweet';
+import { TweetComp } from '@/components/TweetComp';
 import { TweetForm } from '@/components/TweetForm';
 import { createClient } from '@/utils/createClient';
 import { redirect } from 'next/navigation';
@@ -18,7 +18,7 @@ export default async function Home() {
 				<div className='w-full lg:w-1/2'>
 					<TweetForm />
 					<section className='border-t border-t-zinc-200 mt-6 px-2 py-4'>
-						<Tweet />
+						<TweetComp />
 					</section>
 				</div>
 			</div>
