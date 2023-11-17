@@ -3,7 +3,11 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { Modal } from './Modal';
 import { useState } from 'react';
 
-export const Tweet = () => {
+// type ITweet = {
+// 	tweet: Twee
+// }
+
+export const TweetComp = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	return (
 		<div className='flex border p-2 rounded-lg mb-2'>

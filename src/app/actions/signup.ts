@@ -31,6 +31,7 @@ export const handleSignUp = async (
 			keelClient.client.setToken(response.data.token);
 			await keelClient.api.mutations.createUser({
 				name,
+				username: email.split('@')[0],
 			});
 
 			cookies().set('keelToken', response.data.token, {
