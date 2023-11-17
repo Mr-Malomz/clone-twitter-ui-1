@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
+import { Button } from './ui/Button';
 import { handleSignIn } from '@/app/actions/signin';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 
 export const AuthForm = () => {
 	const [formState, action] = useFormState(handleSignIn, { type: 'initial' });
-	const { pending } = useFormStatus();
 
 	return (
 		<form
@@ -44,12 +44,7 @@ export const AuthForm = () => {
 					name='password'
 				/>
 			</fieldset>
-			<button
-				disabled={pending}
-				className='py-1 px-4 w-full h-10 rounded-lg text-white bg-zinc-800 hover:bg-zinc-900'
-			>
-				Sign in
-			</button>
+			<Button title='Sign in'/>
 			<p className='text-center text-sm text-gray-800 mt-4'>
 				Don't have an account?{' '}
 				<Link
