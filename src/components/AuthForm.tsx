@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { Input } from './ui/Input';
 import { Button } from './ui/Button';
 import { handleSignIn } from '@/app/actions/signin';
 import { useFormState } from 'react-dom';
@@ -24,27 +25,19 @@ export const AuthForm = () => {
 				<label htmlFor='email' className='block text-sm mb-1'>
 					Email
 				</label>
-				<input
-					type='email'
-					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
-					placeholder='input email'
-					name='email'
-					required
-				/>
+				<Input type='email' name='email' placeholder='input email' />
 			</fieldset>
 			<fieldset className='mb-4'>
 				<label htmlFor='password' className='block text-sm mb-1'>
 					Password
 				</label>
-				<input
+				<Input
 					type='password'
-					className='w-full border h-10 rounded-lg border-zinc-300 p-4'
-					placeholder='input password'
-					required
 					name='password'
+					placeholder='input password'
 				/>
 			</fieldset>
-			<Button title='Sign in'/>
+			<Button title='Sign in' />
 			<p className='text-center text-sm text-gray-800 mt-4'>
 				Don't have an account?{' '}
 				<Link
