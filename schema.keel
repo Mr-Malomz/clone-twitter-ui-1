@@ -21,7 +21,7 @@ model User {
 model Tweet {
     fields {
         content Text
-        handle Text
+        handle Text @unique
         user User
     }
 
