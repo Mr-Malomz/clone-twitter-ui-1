@@ -26,7 +26,7 @@ model Tweet {
     }
 
     actions {
-        create newTweet() with (content, handle) {
+        create createTweet() with (content, handle) {
             @set(tweet.user = ctx.identity.user)
             @permission(expression: tweet.user.identity == ctx.identity)
         }
