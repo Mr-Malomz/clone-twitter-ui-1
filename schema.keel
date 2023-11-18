@@ -30,6 +30,9 @@ model Tweet {
             @set(tweet.user = ctx.identity.user)
             @permission(expression: tweet.user.identity == ctx.identity)
         }
+        get getTweet(id) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
         update updateTweet(id) with (content) {
             @permission(expression: tweet.user.identity == ctx.identity)
         }
