@@ -303,10 +303,7 @@ export interface GetUserInput {
 }
 export interface NewTweetInput {
     content: string;
-    user: NewTweetUserInput;
-}
-export interface NewTweetUserInput {
-    id: string;
+    handle: string;
 }
 export interface UpdateTweetWhere {
     id: string;
@@ -364,6 +361,7 @@ export interface User {
 }
 export interface Tweet {
     content: string
+    handle: string
     id: string
     createdAt: Date
     updatedAt: Date

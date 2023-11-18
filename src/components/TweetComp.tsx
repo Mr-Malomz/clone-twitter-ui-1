@@ -1,32 +1,28 @@
 'use client';
 import { Pencil, Trash2 } from 'lucide-react';
 import { Modal } from './Modal';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { Tweet, User } from '../../keelClient';
 
-// type ITweet = {
-// 	tweet: Twee
-// }
+type ITweetComp = {
+	tweet: Tweet;
+	user: User;
+};
 
-export const TweetComp = () => {
+export const TweetComp: FC<ITweetComp> = ({ user, tweet }) => {
 	const [open, setOpen] = useState<boolean>(false);
 	return (
 		<div className='flex border p-2 rounded-lg mb-2'>
 			<div className='w-8 h-8 rounded-full flex justify-center items-center bg-slate-700 text-sm font-medium text-white flex-shrink-0'>
-				JD
+				{tweet.handle.substring(0, 2)}
 			</div>
 			<div className='ml-4'>
 				<header className='flex items-center mb-2'>
-					<h5 className='font-medium'>John Doe</h5>
+					<h5 className='font-medium'>{tweet.handle}</h5>
 					<p className='mx-1 font-light'>|</p>
-					<p className='text-sm'>2023-11-13</p>
+					<p className='text-sm'>{tweet.createdAt.toDateString()}</p>
 				</header>
-				<p className='text-sm text-zinc-400 mb-2'>
-					Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et
-					velit nulla nihil numquam deleniti perferendis laborum
-					molestias blanditiis ut. Soluta consectetur molestiae esse
-					voluptatibus nemo cupiditate iste asperiores laboriosam
-					magnam?
-				</p>
+				<p className='text-sm text-zinc-400 mb-2'>{tweet.content}</p>
 				<div className='flex gap-4 items-center'>
 					<button
 						className='flex items-center border py-1 px-2 rounded-lg hover:bg-zinc-300'
