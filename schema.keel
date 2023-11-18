@@ -25,7 +25,8 @@ model Tweet {
     }
 
     actions {
-        create newTweet() with (content, user.id) {
+        create newTweet() with (content) {
+            @set(tweet.user = ctx.identity.user)
             @permission(expression: tweet.user.identity == ctx.identity)
         }
         update updateTweet(id) with (content) {
