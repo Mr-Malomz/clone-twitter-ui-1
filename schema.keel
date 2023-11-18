@@ -21,11 +21,12 @@ model User {
 model Tweet {
     fields {
         content Text
+        handle Text
         user User
     }
 
     actions {
-        create newTweet() with (content) {
+        create newTweet() with (content, handle) {
             @set(tweet.user = ctx.identity.user)
             @permission(expression: tweet.user.identity == ctx.identity)
         }
