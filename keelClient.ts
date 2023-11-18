@@ -249,8 +249,11 @@ export class APIClient extends Core {
         getUser : (i?: GetUserInput) => {
             return this.client.rawRequest<User | null>("getUser", i);
         },
-        newTweet : (i: NewTweetInput) => {
-            return this.client.rawRequest<Tweet>("newTweet", i);
+        createTweet : (i: CreateTweetInput) => {
+            return this.client.rawRequest<Tweet>("createTweet", i);
+        },
+        getTweet : (i: GetTweetInput) => {
+            return this.client.rawRequest<Tweet | null>("getTweet", i);
         },
         updateTweet : (i: UpdateTweetInput) => {
             return this.client.rawRequest<Tweet>("updateTweet", i);
@@ -278,11 +281,12 @@ export class APIClient extends Core {
     api = {
         queries: {
             getUser: this.actions.getUser,
+            getTweet: this.actions.getTweet,
             listTweets: this.actions.listTweets,
         },
         mutations: {
             createUser: this.actions.createUser,
-            newTweet: this.actions.newTweet,
+            createTweet: this.actions.createTweet,
             updateTweet: this.actions.updateTweet,
             deleteTweet: this.actions.deleteTweet,
             authenticate: this.actions.authenticate,
@@ -301,9 +305,12 @@ export interface CreateUserInput {
 }
 export interface GetUserInput {
 }
-export interface NewTweetInput {
+export interface CreateTweetInput {
     content: string;
     handle: string;
+}
+export interface GetTweetInput {
+    id: string;
 }
 export interface UpdateTweetWhere {
     id: string;
