@@ -15,8 +15,6 @@ export default async function Home() {
 	const tweets = await keelClient.api.queries.listTweets();
 	const user = await keelClient.api.queries.getUser();
 
-	console.log(tweets, user);
-
 	return (
 		<main className='min-h-screen w-full bg-[#fafafa]'>
 			<Nav />
@@ -25,7 +23,7 @@ export default async function Home() {
 			>
 				<div className='w-full mt-6 flex justify-center'>
 					<div className='w-full lg:w-1/2'>
-						<TweetForm />
+						<TweetForm handle={user.data?.username!} />
 						<section className='border-t border-t-zinc-200 mt-6 px-2 py-4'>
 							{tweets.data?.pageInfo.totalCount < 1 && (
 								<p className='text-sm text-zinc-500 text-center'>

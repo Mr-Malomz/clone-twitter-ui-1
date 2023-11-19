@@ -1,8 +1,9 @@
-'use client';
 import { Pencil, Trash2 } from 'lucide-react';
-import { Modal } from './Modal';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Tweet, User } from '../../keelClient';
+import Link from 'next/link';
+import { DeleteButton } from './ui/DeleteButton';
+import { handleDeleteTweet } from '@/app/actions/deleteTweet';
 
 type ITweetComp = {
 	tweet: Tweet;
@@ -10,7 +11,6 @@ type ITweetComp = {
 };
 
 export const TweetComp: FC<ITweetComp> = ({ user, tweet }) => {
-	const [open, setOpen] = useState<boolean>(false);
 	return (
 		<div className='flex border p-2 rounded-lg mb-2'>
 			<div className='w-8 h-8 rounded-full flex justify-center items-center bg-slate-700 text-sm font-medium text-white flex-shrink-0'>
@@ -22,22 +22,23 @@ export const TweetComp: FC<ITweetComp> = ({ user, tweet }) => {
 					<p className='mx-1 font-light'>|</p>
 					<p className='text-sm'>{tweet.createdAt.toDateString()}</p>
 				</header>
-				<p className='text-sm text-zinc-400 mb-2'>{tweet.content}</p>
-				<div className='flex gap-4 items-center'>
-					<button
-						className='flex items-center border py-1 px-2 rounded-lg hover:bg-zinc-300'
-						onClick={() => setOpen(true)}
-					>
-						<Pencil className='h-4 w-4' />
-						<p className='ml-2 text-sm'>Edit</p>
-					</button>
-					<button className='flex items-center border py-1 px-2 rounded-lg hover:bg-red-300'>
-						<Trash2 className='h-4 w-4' />
-						<p className='ml-2 text-sm'>Delete</p>
-					</button>
-				</div>
+				<p className='text-sm text-zinc-500 mb-2'>{tweet.content}</p>
+				{user.id === tweet.userId && (
+					<div className='flex gap-4 items-center'>
+						<Link
+							href={`${tweet.id}`}
+							className='flex items-center border py-1 px-2 rounded-lg hover:bg-zinc-300'
+						>
+							<Pencil className='h-4 w-4' />
+							<p className='ml-2 text-sm'>Edit</p>
+						</Link>
+						<form action={handleDeleteTweet}>
+							<input type='hidden' name='id' value={tweet.id} />
+							<DeleteButton />
+						</form>
+					</div>
+				)}
 			</div>
-			<Modal open={open} setOpen={setOpen} />
 		</div>
 	);
 };
