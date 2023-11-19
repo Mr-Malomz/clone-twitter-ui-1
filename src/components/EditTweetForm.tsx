@@ -4,13 +4,13 @@ import { Button } from './ui/Button';
 import { Tweet } from '../../keelClient';
 import { handleEditTweet } from '@/app/actions/editTweet';
 
-type IEditForm = {
+type IEditTweetForm = {
 	tweet: Tweet;
 };
 
-export const EditForm: FC<IEditForm> = ({ tweet }) => {
+export const EditTweetForm: FC<IEditTweetForm> = ({ tweet }) => {
 	const updateTweet = handleEditTweet.bind(null, tweet.id);
-	
+
 	return (
 		<form action={updateTweet}>
 			<textarea

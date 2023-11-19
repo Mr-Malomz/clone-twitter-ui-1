@@ -1,4 +1,4 @@
-import { EditForm } from '@/components/EditTweetForm';
+import { EditTweetForm } from '@/components/EditTweetForm';
 import { createClient } from '@/utils/createClient';
 import { X } from 'lucide-react';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { edit: string } }) {
 							>
 								<X className='cursor-pointer' />
 							</Link>
-							<EditForm tweet={tweet.data!} />
+							<EditTweetForm tweet={tweet.data!} />
 						</div>
 					</div>
 				</div>
