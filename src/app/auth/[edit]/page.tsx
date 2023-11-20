@@ -7,6 +7,14 @@ export default async function Page({ params }: { params: { edit: string } }) {
 	const keelClient = createClient();
 	const tweet = await keelClient.api.queries.getTweet({ id: params.edit });
 
+	if (tweet.error) {
+		return (
+			<p className='text-center text-sm mt-6 text-red-600'>
+				Error processing request!
+			</p>
+		);
+	}
+
 	return (
 		<div className={`relative z-10 open-nav `}>
 			<div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity'></div>

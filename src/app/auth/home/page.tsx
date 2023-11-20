@@ -15,6 +15,14 @@ export default async function Home() {
 	const tweets = await keelClient.api.queries.listTweets();
 	const user = await keelClient.api.queries.getUser();
 
+	if (tweets.error || user.error) {
+		return (
+			<p className='text-center text-sm mt-6 text-red-600'>
+				Error processing request!
+			</p>
+		);
+	}
+
 	return (
 		<main className='min-h-screen w-full bg-[#fafafa]'>
 			<Nav />
