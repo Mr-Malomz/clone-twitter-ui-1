@@ -26,3 +26,15 @@ export const createClient = ({ token }: Options = {}) => {
 
 	return keelClient;
 };
+
+export const setKeelToken = (token: string) => {
+	cookies().set('keelToken', token, {
+		httpOnly: true,
+		secure: true,
+		sameSite: 'strict',
+	});
+};
+
+export const deleteKeelToken = () => {
+	cookies().delete('keelToken');
+};

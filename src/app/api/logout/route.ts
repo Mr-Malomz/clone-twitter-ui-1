@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers';
+import { deleteKeelToken } from '@/utils/createClient';
 
 export async function GET() {
-	cookies().delete('keelToken');
+	deleteKeelToken();
 
 	return new Response('log out successful', {
 		status: 200,

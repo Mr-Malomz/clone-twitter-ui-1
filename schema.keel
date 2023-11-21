@@ -1,12 +1,46 @@
 model User {
     fields {
-        identity Identity?
+        identity Identity @unique
         name Text
+        username Text @unique
+        tweets Tweet[]
     }
 
     actions {
-        create createUser() with (name) {
+        create createUser() with (name, username) {
             @set(user.identity = ctx.identity)
+            @permission(expression: ctx.isAuthenticated)
+        }
+        get getUser() {
+            @where(user.identity == ctx.identity)
+            @permission(expression: ctx.isAuthenticated)
+        }
+    }
+}
+
+model Tweet {
+    fields {
+        content Text
+        handle Text
+        user User
+    }
+
+    actions {
+        create createTweet() with (content, handle) {
+            @set(tweet.user = ctx.identity.user)
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
+        get getTweet(id) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
+        update updateTweet(id) with (content) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
+        delete deleteTweet(id) {
+            @permission(expression: tweet.user.identity == ctx.identity)
+        }
+        list listTweets() {
+            @orderBy(createdAt: desc)
             @permission(expression: ctx.isAuthenticated)
         }
     }

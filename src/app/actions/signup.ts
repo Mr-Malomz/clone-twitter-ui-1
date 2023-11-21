@@ -1,7 +1,6 @@
 'use server';
 
-import { createClient } from '@/utils/createClient';
-import { cookies } from 'next/headers';
+import { createClient, setKeelToken } from '@/utils/createClient';
 import { FormResponseType } from './types';
 import { redirect } from 'next/navigation';
 
@@ -24,26 +23,23 @@ export const handleSignUp = async (
 		});
 
 		if (!response.data) {
-			return { type: 'error', message: 'No response from server' };
+			return { type: 'error', message: response.error.message };
 		}
 
 		if (response.data.identityCreated) {
 			keelClient.client.setToken(response.data.token);
 			await keelClient.api.mutations.createUser({
 				name,
+				username: email.split('@')[0],
 			});
 
-			cookies().set('keelToken', response.data.token, {
-				httpOnly: true,
-				secure: true,
-				sameSite: 'strict',
-			});
+			setKeelToken(response.data.token);
 
 			redirect('/auth/home');
 		} else {
-			return { type: 'error', message: 'Error creating in user' };
+			return { type: 'error', message: 'Error creating user!' };
 		}
 	} catch (e) {
-		return { type: 'error', message: 'Error creating in user' };
+		return { type: 'error', message: `Error creating user - ${e}` };
 	}
 };

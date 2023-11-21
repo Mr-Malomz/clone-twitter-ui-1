@@ -246,6 +246,24 @@ export class APIClient extends Core {
         createUser : (i: CreateUserInput) => {
             return this.client.rawRequest<User>("createUser", i);
         },
+        getUser : (i?: GetUserInput) => {
+            return this.client.rawRequest<User | null>("getUser", i);
+        },
+        createTweet : (i: CreateTweetInput) => {
+            return this.client.rawRequest<Tweet>("createTweet", i);
+        },
+        getTweet : (i: GetTweetInput) => {
+            return this.client.rawRequest<Tweet | null>("getTweet", i);
+        },
+        updateTweet : (i: UpdateTweetInput) => {
+            return this.client.rawRequest<Tweet>("updateTweet", i);
+        },
+        deleteTweet : (i: DeleteTweetInput) => {
+            return this.client.rawRequest<string>("deleteTweet", i);
+        },
+        listTweets : (i?: ListTweetsInput) => {
+            return this.client.rawRequest<{results: Tweet[], pageInfo: any}>("listTweets", i);
+        },
         authenticate : (i: AuthenticateInput) => {
             return this.client.rawRequest<AuthenticateResponse>("authenticate", i).then((res) => {
               if (res.data && res.data.token) this.client.setToken(res.data.token);
@@ -262,9 +280,15 @@ export class APIClient extends Core {
 
     api = {
         queries: {
+            getUser: this.actions.getUser,
+            getTweet: this.actions.getTweet,
+            listTweets: this.actions.listTweets,
         },
         mutations: {
             createUser: this.actions.createUser,
+            createTweet: this.actions.createTweet,
+            updateTweet: this.actions.updateTweet,
+            deleteTweet: this.actions.deleteTweet,
             authenticate: this.actions.authenticate,
             requestPasswordReset: this.actions.requestPasswordReset,
             resetPassword: this.actions.resetPassword,
@@ -277,6 +301,38 @@ export class APIClient extends Core {
 
 export interface CreateUserInput {
     name: string;
+    username: string;
+}
+export interface GetUserInput {
+}
+export interface CreateTweetInput {
+    content: string;
+    handle: string;
+}
+export interface GetTweetInput {
+    id: string;
+}
+export interface UpdateTweetWhere {
+    id: string;
+}
+export interface UpdateTweetValues {
+    content: string;
+}
+export interface UpdateTweetInput {
+    where: UpdateTweetWhere;
+    values: UpdateTweetValues;
+}
+export interface DeleteTweetInput {
+    id: string;
+}
+export interface ListTweetsWhere {
+}
+export interface ListTweetsInput {
+    where?: ListTweetsWhere;
+    first?: number;
+    after?: string;
+    last?: number;
+    before?: string;
 }
 export interface EmailPasswordInput {
     email: string;
@@ -304,10 +360,19 @@ export interface ResetPasswordResponse {
 }
 export interface User {
     name: string
+    username: string
     id: string
     createdAt: Date
     updatedAt: Date
-    identityId: string | null
+    identityId: string
+}
+export interface Tweet {
+    content: string
+    handle: string
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    userId: string
 }
 export interface Identity {
     email: string | null

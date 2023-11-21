@@ -1,8 +1,7 @@
 'use server';
 
-import { createClient } from '@/utils/createClient';
+import { createClient, setKeelToken } from '@/utils/createClient';
 import { FormResponseType } from './types';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const handleSignIn = async (
@@ -29,12 +28,8 @@ export const handleSignIn = async (
 			message: 'Login failed. Please check your email and password.',
 		};
 	}
-	keelClient.client.setToken(response.data!.token);
+	keelClient.client.setToken(token);
 
-	cookies().set('keelToken', response.data!.token, {
-		httpOnly: true,
-		secure: true,
-		sameSite: 'strict',
-	});
+	setKeelToken(token);
 	redirect('/auth/home');
 };
