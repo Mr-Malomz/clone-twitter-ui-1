@@ -3,11 +3,11 @@ import { handleCreateTweet } from '@/app/actions/createTweet';
 import { Button } from './ui/Button';
 import { FC } from 'react';
 
-type ITweetForm = {
+type TweetFormType = {
 	handle: string;
 };
 
-export const TweetForm: FC<ITweetForm> = ({ handle }) => {
+export const TweetForm: FC<TweetFormType> = ({ handle }) => {
 	const createTweet = handleCreateTweet.bind(null, handle);
 
 	return (

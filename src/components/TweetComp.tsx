@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { DeleteButton } from './ui/DeleteButton';
 import { handleDeleteTweet } from '@/app/actions/deleteTweet';
 
-type ITweetComp = {
+type TweetCompType = {
 	tweet: Tweet;
 	user: User;
 };
 
-export const TweetComp: FC<ITweetComp> = ({ user, tweet }) => {
+export const TweetComp: FC<TweetCompType> = ({ user, tweet }) => {
 	return (
 		<div className='flex border p-2 rounded-lg mb-2'>
 			<div className='w-8 h-8 rounded-full flex justify-center items-center bg-slate-700 text-sm font-medium text-white flex-shrink-0'>
