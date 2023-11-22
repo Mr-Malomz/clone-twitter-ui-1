@@ -16,8 +16,8 @@ model User {
     }
 
     @permission(
-      actions: [create, get],
-      expression: ctx.isAuthenticated
+        actions: [create, get],
+        expression: ctx.isAuthenticated
     )
 }
 
@@ -41,12 +41,12 @@ model Tweet {
     }
 
     @permission(
-      actions: [create, update, delete],
-      expression: tweet.user.identity == ctx.identity
+        actions: [create, update, delete],
+        expression: tweet.user.identity == ctx.identity
     )
 
     @permission(
-      actions: [get, list],
-      expression: ctx.isAuthenticated
+        actions: [get, list],
+        expression: ctx.isAuthenticated
     )
 }
