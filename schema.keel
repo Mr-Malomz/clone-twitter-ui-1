@@ -9,13 +9,16 @@ model User {
     actions {
         create createUser() with (name, username) {
             @set(user.identity = ctx.identity)
-            @permission(expression: ctx.isAuthenticated)
         }
-        get getUser() {
+        get myUser() {
             @where(user.identity == ctx.identity)
-            @permission(expression: ctx.isAuthenticated)
         }
     }
+
+    @permission(
+      actions: [create, get],
+      expression: ctx.isAuthenticated
+    )
 }
 
 model Tweet {
@@ -28,20 +31,22 @@ model Tweet {
     actions {
         create createTweet() with (content, handle) {
             @set(tweet.user = ctx.identity.user)
-            @permission(expression: tweet.user.identity == ctx.identity)
         }
-        get getTweet(id) {
-            @permission(expression: tweet.user.identity == ctx.identity)
-        }
-        update updateTweet(id) with (content) {
-            @permission(expression: tweet.user.identity == ctx.identity)
-        }
-        delete deleteTweet(id) {
-            @permission(expression: tweet.user.identity == ctx.identity)
-        }
+        get getTweet(id)
+        update updateTweet(id) with (content)
+        delete deleteTweet(id)
         list listTweets() {
             @orderBy(createdAt: desc)
-            @permission(expression: ctx.isAuthenticated)
         }
     }
+
+    @permission(
+      actions: [create, update, delete],
+      expression: tweet.user.identity == ctx.identity
+    )
+
+    @permission(
+      actions: [get, list],
+      expression: ctx.isAuthenticated
+    )
 }
