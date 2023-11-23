@@ -1,7 +1,7 @@
 import { EditTweetForm } from '@/components/EditTweetForm';
-import { createClient } from '@/utils/createClient';
 import { X } from 'lucide-react';
 import Link from 'next/link';
+import { createClient } from '@/utils/createClient';
 
 export default async function Page({ params }: { params: { edit: string } }) {
 	const keelClient = createClient();

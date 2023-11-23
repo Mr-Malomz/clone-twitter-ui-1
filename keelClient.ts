@@ -246,8 +246,8 @@ export class APIClient extends Core {
         createUser : (i: CreateUserInput) => {
             return this.client.rawRequest<User>("createUser", i);
         },
-        getUser : (i?: GetUserInput) => {
-            return this.client.rawRequest<User | null>("getUser", i);
+        myUser : (i?: MyUserInput) => {
+            return this.client.rawRequest<User | null>("myUser", i);
         },
         createTweet : (i: CreateTweetInput) => {
             return this.client.rawRequest<Tweet>("createTweet", i);
@@ -280,7 +280,7 @@ export class APIClient extends Core {
 
     api = {
         queries: {
-            getUser: this.actions.getUser,
+            myUser: this.actions.myUser,
             getTweet: this.actions.getTweet,
             listTweets: this.actions.listTweets,
         },
@@ -303,7 +303,7 @@ export interface CreateUserInput {
     name: string;
     username: string;
 }
-export interface GetUserInput {
+export interface MyUserInput {
 }
 export interface CreateTweetInput {
     content: string;

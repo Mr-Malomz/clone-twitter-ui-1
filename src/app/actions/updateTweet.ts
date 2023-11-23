@@ -3,7 +3,7 @@
 import { createClient } from '@/utils/createClient';
 import { redirect } from 'next/navigation';
 
-export const handleEditTweet = async (id: string, formData: FormData) => {
+export const handleUpdateTweet = async (id: string, formData: FormData) => {
 	const keelClient = createClient();
 	const content = formData.get('content')?.toString() ?? '';
 

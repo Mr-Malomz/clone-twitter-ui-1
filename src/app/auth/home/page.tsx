@@ -13,7 +13,7 @@ export default async function Home() {
 	}
 
 	const tweets = await keelClient.api.queries.listTweets();
-	const user = await keelClient.api.queries.getUser();
+	const user = await keelClient.api.queries.myUser();
 
 	if (tweets.error || user.error) {
 		return (

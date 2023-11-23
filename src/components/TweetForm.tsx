@@ -1,6 +1,6 @@
 'use client';
-import { handleCreateTweet } from '@/app/actions/createTweet';
 import { Button } from './ui/Button';
+import { handleCreateTweet } from '@/app/actions/createTweet';
 import { FC } from 'react';
 
 type TweetFormType = {

@@ -1,15 +1,15 @@
 'use client';
-import { FC } from 'react';
 import { Button } from './ui/Button';
+import { FC } from 'react';
 import { Tweet } from '../../keelClient';
-import { handleEditTweet } from '@/app/actions/editTweet';
+import { handleUpdateTweet } from '@/app/actions/updateTweet';
 
 type EditTweetFormType = {
 	tweet: Tweet;
 };
 
 export const EditTweetForm: FC<EditTweetFormType> = ({ tweet }) => {
-	const updateTweet = handleEditTweet.bind(null, tweet.id);
+	const updateTweet = handleUpdateTweet.bind(null, tweet.id);
 
 	return (
 		<form action={updateTweet}>
