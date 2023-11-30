@@ -24,12 +24,11 @@ model User {
 model Tweet {
     fields {
         content Text
-        handle Text
         user User
     }
 
     actions {
-        create createTweet() with (content, handle) {
+        create createTweet() with (content) {
             @set(tweet.user = ctx.identity.user)
         }
         get getTweet(id)
@@ -37,6 +36,9 @@ model Tweet {
         delete deleteTweet(id)
         list listTweets() {
             @orderBy(createdAt: desc)
+        }
+        get getTweetAuthor(id) {
+            @where(tweet.user.identity == ctx.identity.user.identity)
         }
     }
 
