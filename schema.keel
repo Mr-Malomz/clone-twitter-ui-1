@@ -13,6 +13,7 @@ model User {
         get myUser() {
             @where(user.identity == ctx.identity)
         }
+        get getTweetAuthor(id)
     }
 
     @permission(
@@ -36,9 +37,6 @@ model Tweet {
         delete deleteTweet(id)
         list listTweets() {
             @orderBy(createdAt: desc)
-        }
-        get getTweetAuthor(id) {
-            @where(tweet.user.identity == ctx.identity.user.identity)
         }
     }
 
